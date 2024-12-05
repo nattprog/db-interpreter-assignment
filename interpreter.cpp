@@ -22,32 +22,43 @@
 #include <fstream>
 using namespace std;
 
-void OpenFile();
+string OpenFileReturnAllLines(string);
 
 int main()
 {
-    OpenFile();
+    string FileName, AllLines;
+    cout << "Select file to read : ";
+
+    getline(cin, FileName);
+    AllLines = OpenFileReturnAllLines(FileName);
+    cout << AllLines;
     return 0;
 }
 
-void OpenFile(){
-    string FileName, Line, AllLines;
+string OpenFileReturnAllLines(string FileName)
+{
+    string Line, AllLines;
     ifstream InputFile;
-    cout << "Select file to read : ";
-    getline(cin, FileName);
-    InputFile.open(FileName); /*Opens the file according to user's input*/
 
-    if (!InputFile) {
+    InputFile.open(FileName); /*Opens the file according to user's input*/
+    if (!InputFile)
+    {
         cout << "No file found!" << endl;
-    } else {
+        InputFile.close(); /*Closes file*/
+        return "";
+    }
+    else
+    {
         cout << "File found." << endl;
     };
 
-    int count=0;
-    while (getline(InputFile, Line)) { /*Loops through the file and gets lines from file.*/
+    int count = 0;
+    while (getline(InputFile, Line))
+    { /*Loops through the file and gets lines from file.*/
         count++;
         cout << count << ". " << Line << endl;
         AllLines += Line; /*Tentatively appends all the lines to the a single string */
     };
     InputFile.close(); /*Closes file*/
+    return AllLines; /*Returns string containing full contents of the file*/
 };
